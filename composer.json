@@ -1,0 +1,21 @@
+{
+  "name": "beerline/php-custom-annotations",
+  "description": "Create and work with custom php annotation with pleasure.",
+  "keywords": ["annotations","metadata", "custom annotations"],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Denis Korovitskii",
+      "email": "d@it-dk.com"
+    }
+  ],
+  "require": {
+    "php": "^7.2",
+    "doctrine/annotations": "^1.6"
+  },
+
+  "autoload": {
+    "psr-4": { "Metadata\\": "src/" }
+  }
+}
