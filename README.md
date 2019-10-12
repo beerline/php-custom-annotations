@@ -11,11 +11,12 @@ Open a command console, enter your project directory and execute the following c
 **Step 2: Enable the Bundle**
 For Symfony declare new service at `config/services.yaml`
 
+```yaml
     services:
       // Your services here
       Metadata\AnnotatedFieldsPicker:
         class: 'Metadata\AnnotatedFieldsPicker'
-
+```
 
 ## How to use
 
@@ -32,6 +33,7 @@ To add metadata to field of your class:
 
 Imagine we have Product class.
 
+```php
     class Product
     {
       /** @var int */
@@ -59,6 +61,7 @@ Imagine we have Product class.
           $this->description = $description;
       }
     }
+```
 
 Some of it’s fields should be translated:
 
@@ -67,6 +70,7 @@ Some of it’s fields should be translated:
 
 To specify which fields should be translated lets create metadata Class called `Translatable`
 
+```php
     /**
      * @Annotation
      * @Annotation\Target("PROPERTY")
@@ -79,9 +83,10 @@ To specify which fields should be translated lets create metadata Class called `
        */
       public $translatable;
     }
-
+```
 Now mark fields `name` and `description` by metadata class
 
+```php
     // ...
         /**
          * @var string
@@ -95,10 +100,11 @@ Now mark fields `name` and `description` by metadata class
          */  
         private $description
     // ...
-    
+```
 
 **That all.** All you need now it is use `AnnotatedFieldsPicker` to get this fields
 
+```php
     <?php
     use Doctrine\Common\Annotations\AnnotationReader;
     use Metadata\AnnotatedFieldsPicker;
@@ -119,9 +125,9 @@ Now mark fields `name` and `description` by metadata class
              }
          }
     }
-    
+```
     // result
     // name: 1
     // description: 1
-    
+
 
