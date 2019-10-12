@@ -4,6 +4,7 @@
   "keywords": ["annotations","metadata", "custom annotations"],
   "type": "library",
   "license": "MIT",
+  "homepage": "https://github.com/beerline/php-custom-annotations",
   "authors": [
     {
       "name": "Denis Korovitskii",
