@@ -14,17 +14,17 @@ class PropertyCertainMetadata
     /**
      * @var object
      */
-    private $annotationClasses;
+    private $metadataClass;
 
     /**
      * AnnotatedField constructor.
      * @param string $fieldName
-     * @param object $annotationClasses
+     * @param object $metadataClass
      */
-    public function __construct(string $fieldName, object $annotationClasses)
+    public function __construct(string $fieldName, object $metadataClass)
     {
         $this->fieldName = $fieldName;
-        $this->annotationClasses = $annotationClasses;
+        $this->metadataClass = $metadataClass;
     }
 
     /**
@@ -38,8 +38,8 @@ class PropertyCertainMetadata
     /**
      * @return object
      */
-    public function getAnnotationClasses() : object
+    public function getMetadataClass() : object
     {
-        return $this->annotationClasses;
+        return $this->metadataClass;
     }
 }
