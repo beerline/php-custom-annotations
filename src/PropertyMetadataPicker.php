@@ -26,9 +26,11 @@ class PropertyMetadataPicker
     }
 
     /**
+     * Return all properties with all annotations
+     *
      * @param $entity
      * @return PropertyMetadata[]
-     *@throws ReflectionException
+     * @throws ReflectionException
      *
      */
     public function findPropertiesAllMetadata( object $entity ) : array
@@ -50,14 +52,16 @@ class PropertyMetadataPicker
     }
 
     /**
+     * Return all properties with certain annotated class
+     *
      * @param $entity
      * @param string $metadataClassName
      *
-     * @return PropertyMetadata[]
-     *@throws \ReflectionException
+     * @return PropertyCertainMetadata[]
+     * @throws \ReflectionException
      *
      */
-    public function findPropertyWithMetadata( object $entity, string $metadataClassName ) : array
+    public function findPropertyCertainMetadata( object $entity, string $metadataClassName ) : array
     {
         $reflection = new ReflectionClass($entity);
         $properties = $reflection->getProperties();
@@ -70,6 +74,56 @@ class PropertyMetadataPicker
             if ( $propAnnotation instanceof $metadataClassName ) {
                 $annotatedField = new PropertyCertainMetadata($property->getName(), $propAnnotation );
                 $propertiesMetadata[] = $annotatedField;
+            }
+        }
+
+        return $propertiesMetadata;
+    }
+
+    /**
+     *
+     *
+     * @param string $className
+     * @param string $metadataClassName
+     * @return array
+     * @throws ReflectionException
+     */
+    public function findPropertyCertainMetadataOfClass( string $className, string $metadataClassName ) : array
+    {
+        $reflection = new ReflectionClass($className);
+        $properties = $reflection->getProperties();
+
+        $propertiesMetadata = [];
+        foreach ($properties as $property) {
+            $reflectionProperty = new ReflectionProperty( $className, $property->getName());
+            $propAnnotation = $this->reader->getPropertyAnnotation( $reflectionProperty, $metadataClassName );
+
+            if ( $propAnnotation instanceof $metadataClassName ) {
+                $annotatedField = new PropertyCertainMetadata($property->getName(), $propAnnotation );
+                $propertiesMetadata[] = $annotatedField;
+            }
+        }
+
+        return $propertiesMetadata;
+    }
+
+    /**
+     * @param string $className
+     * @return array
+     * @throws ReflectionException
+     */
+    public function findPropertiesAllMetadataOfClass( string $className ) : array
+    {
+        $reflection = new ReflectionClass($className);
+        $properties = $reflection->getProperties();
+
+        $propertiesMetadata = [];
+        foreach ($properties as $property) {
+            $reflectionProperty = new ReflectionProperty( $className, $property->getName());
+            $propAnnotations = $this->reader->getPropertyAnnotations( $reflectionProperty );
+
+            if ( count($propAnnotations) > 0 ) {
+                $propertiesMetadata[] = new PropertyMetadata($property->getName(), $propAnnotations);
             }
         }
 
