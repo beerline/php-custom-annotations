@@ -9,7 +9,7 @@ class PropertyMetadata
     /**
      * @var string
      */
-    private $fieldName;
+    private $propertyName;
 
     /**
      * @var array
@@ -17,22 +17,22 @@ class PropertyMetadata
     private $metadataClasses;
 
     /**
-     * AnnotatedField constructor.
-     * @param string $fieldName
-     * @param array $metadtaClasses
+     * PropertyMetadata constructor.
+     * @param string $propertyName
+     * @param array $metadataClasses
      */
-    public function __construct(string $fieldName, array $metadtaClasses)
+    public function __construct(string $propertyName, array $metadataClasses)
     {
-        $this->fieldName = $fieldName;
-        $this->metadataClasses = $metadtaClasses;
+        $this->propertyName = $propertyName;
+        $this->metadataClasses = $metadataClasses;
     }
 
     /**
      * @return string
      */
-    public function getFieldName(): string
+    public function getPropertyName(): string
     {
-        return $this->fieldName;
+        return $this->propertyName;
     }
 
     /**

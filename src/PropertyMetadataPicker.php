@@ -17,7 +17,7 @@ class PropertyMetadataPicker
     private $reader;
 
     /**
-     * TranslateFieldsPicker constructor.
+     * PropertyMetadataPicker constructor.
      * @param Reader $reader
      */
     public function __construct( Reader $reader )
@@ -26,7 +26,7 @@ class PropertyMetadataPicker
     }
 
     /**
-     * Return all properties with all annotations
+     * Return all properties with all metadata
      *
      * @param $entity
      * @return PropertyMetadata[]
@@ -72,8 +72,8 @@ class PropertyMetadataPicker
             $propAnnotation = $this->reader->getPropertyAnnotation( $reflectionProperty, $metadataClassName );
 
             if ( $propAnnotation instanceof $metadataClassName ) {
-                $annotatedField = new PropertyCertainMetadata($property->getName(), $propAnnotation );
-                $propertiesMetadata[] = $annotatedField;
+                $propertyCertainMetadata = new PropertyCertainMetadata($property->getName(), $propAnnotation );
+                $propertiesMetadata[] = $propertyCertainMetadata;
             }
         }
 
@@ -99,8 +99,8 @@ class PropertyMetadataPicker
             $propAnnotation = $this->reader->getPropertyAnnotation( $reflectionProperty, $metadataClassName );
 
             if ( $propAnnotation instanceof $metadataClassName ) {
-                $annotatedField = new PropertyCertainMetadata($property->getName(), $propAnnotation );
-                $propertiesMetadata[] = $annotatedField;
+                $propertyCertainMetadata = new PropertyCertainMetadata($property->getName(), $propAnnotation );
+                $propertiesMetadata[] = $propertyCertainMetadata;
             }
         }
 
