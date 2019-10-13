@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 
-namespace Metadata;
+namespace Beerline\PhpCustomAnnotations\Metadata;
 
 
 class PropertyMetadata
