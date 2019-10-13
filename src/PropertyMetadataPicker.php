@@ -9,7 +9,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
 
-class AnnotatedFieldsPicker
+class PropertyMetadataPicker
 {
     /**
      * @var Reader
@@ -27,52 +27,52 @@ class AnnotatedFieldsPicker
 
     /**
      * @param $entity
-     * @throws ReflectionException
+     * @return PropertyMetadata[]
+     *@throws ReflectionException
      *
-     * @return AnnotatedField[]
      */
-    public function findFieldsWithAllAnnotations( object $entity ) : array
+    public function findPropertiesAllMetadata( object $entity ) : array
     {
         $reflection = new ReflectionClass($entity);
         $properties = $reflection->getProperties();
 
-        $annotatedFields = [];
+        $propertiesMetadata = [];
         foreach ($properties as $property) {
             $reflectionProperty = new ReflectionProperty( get_class($entity), $property->getName());
             $propAnnotations = $this->reader->getPropertyAnnotations( $reflectionProperty );
 
             if ( count($propAnnotations) > 0 ) {
-                $annotatedFields[] = new AnnotatedField($property->getName(), $propAnnotations);
+                $propertiesMetadata[] = new PropertyMetadata($property->getName(), $propAnnotations);
             }
         }
 
-        return $annotatedFields;
+        return $propertiesMetadata;
     }
 
     /**
      * @param $entity
-     * @param string $annotationClassName
+     * @param string $metadataClassName
      *
-     * @throws \ReflectionException
+     * @return PropertyMetadata[]
+     *@throws \ReflectionException
      *
-     * @return AnnotatedField[]
      */
-    public function findFieldsWithAnnotation( object $entity, string $annotationClassName ) : array
+    public function findPropertyWithMetadata( object $entity, string $metadataClassName ) : array
     {
         $reflection = new ReflectionClass($entity);
         $properties = $reflection->getProperties();
 
-        $annotatedFields = [];
+        $propertiesMetadata = [];
         foreach ($properties as $property) {
             $reflectionProperty = new ReflectionProperty( get_class($entity), $property->getName());
-            $propAnnotation = $this->reader->getPropertyAnnotation( $reflectionProperty, $annotationClassName );
+            $propAnnotation = $this->reader->getPropertyAnnotation( $reflectionProperty, $metadataClassName );
 
-            if ( $propAnnotation instanceof $annotationClassName ) {
-                $annotatedField = new AnnotatedField( $property->getName(), [$propAnnotation] );
-                $annotatedFields[] = $annotatedField;
+            if ( $propAnnotation instanceof $metadataClassName ) {
+                $annotatedField = new PropertyCertainMetadata($property->getName(), $propAnnotation );
+                $propertiesMetadata[] = $annotatedField;
             }
         }
 
-        return $annotatedFields;
+        return $propertiesMetadata;
     }
 }

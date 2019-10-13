@@ -4,7 +4,7 @@
 namespace Metadata;
 
 
-class AnnotatedField
+class PropertyCertainMetadata
 {
     /**
      * @var string
@@ -12,16 +12,16 @@ class AnnotatedField
     private $fieldName;
 
     /**
-     * @var array
+     * @var object
      */
     private $annotationClasses;
 
     /**
      * AnnotatedField constructor.
      * @param string $fieldName
-     * @param array $annotationClasses
+     * @param object $annotationClasses
      */
-    public function __construct(string $fieldName, array $annotationClasses)
+    public function __construct(string $fieldName, object $annotationClasses)
     {
         $this->fieldName = $fieldName;
         $this->annotationClasses = $annotationClasses;
@@ -36,9 +36,9 @@ class AnnotatedField
     }
 
     /**
-     * @return array
+     * @return object
      */
-    public function getAnnotationClasses(): array
+    public function getAnnotationClasses() : object
     {
         return $this->annotationClasses;
     }
