@@ -14,19 +14,19 @@ For Symfony declare new service at `config/services.yaml`
 ```yaml
     services:
       // Your services here
-      Metadata\AnnotatedFieldsPicker:
-        class: 'Metadata\AnnotatedFieldsPicker'
+      Beerline\PhpCustomAnnotations\Metadata\PropertyMetadataPicker:
+        class: 'Beerline\PhpCustomAnnotations\Metadata\PropertyMetadataPicker'
 ```
 
 ## How to use
 
-To add metadata to field of your class:
+To add metadata to property of your class:
 
 1. Create metadata class.
-2. Add annotation `@Annotation`  ******and `@Annotation` to metadata class.
-3. Annotate filed of your class by metadata class.
-4. Use `\Metadata\PickerAnnotatedFields::findFieldsWithAllAnnotations( object $entity )` to get array of all annotation of all field given class.
-5. Use `\Metadata\PickerAnnotatedFields::findFieldsWithAnnotation( object $entity, string $annotationClassName )` method to get only fields with specific metadata class.
+2. Add annotation `@Annotation` and `@Annotation\Target("PROPERTY")` to metadata class.
+3. Annotate property of your class by metadata class.
+4. Use `Beerline\PhpCustomAnnotations\Metadata\PropertyMetadataPicker::findPropertiesAllMetadata( object $entity )` to get array of all annotation of all property of given class.
+5. Use `Beerline\PhpCustomAnnotations\Metadata\PropertyMetadataPicker::findPropertyCertainMetadata( object $entity, string $metadataClassName  )` method to get only properties with specific metadata class. `$metadataClassName` is name of metadata class
 
 
 ## Examples
@@ -63,12 +63,12 @@ Imagine we have Product class.
     }
 ```
 
-Some of it’s fields should be translated:
+Some of it’s properties should be translated:
 
 - name
 - description
 
-To specify which fields should be translated lets create metadata Class called `Translatable`
+To specify which properties should be translated lets create metadata Class called `Translatable`
 
 ```php
     /**
@@ -84,7 +84,7 @@ To specify which fields should be translated lets create metadata Class called `
       public $translatable;
     }
 ```
-Now mark fields `name` and `description` by metadata class
+Now mark properies `name` and `description` by metadata class
 
 ```php
     // ...
@@ -102,26 +102,25 @@ Now mark fields `name` and `description` by metadata class
     // ...
 ```
 
-**That all.** All you need now it is use `AnnotatedFieldsPicker` to get this fields
+**That all.** All you need now it is use `PropertyMetadataPicker` to get this properties
 
 ```php
     <?php
     use Doctrine\Common\Annotations\AnnotationReader;
-    use Metadata\AnnotatedFieldsPicker;
+    use Beerline\PhpCustomAnnotations\Metadata\PropertyMetadataPicker;
     
     $product = new Product( 'iPhone', now(), 'Designed by Apple in California' );
-    $annotatedFieldPicker = new AnnotatedFieldsPicker( new AnnotationReader() );
+    $propertyMetadataPicker = new PropertyMetadataPicker( new AnnotationReader() );
     
-    $anotatedFileds = $annotatedFieldPicker->findFieldsWithAnnotation(
+    $propertiesMetadata = $propertyMetadataPicker->findPropertyCertainMetadata(
         $product,
         Translatable::class
     );
     
-    foreach ($fields as $field) {
-         echo $field->getFieldName();
-         foreach ($field->getAnnotationClasses() as $annotatedClass){
-             if ( $annotatedClass instanceof Translate) {
-                 echo ': ' . $annotatedClass->translatable . "\n";
+    foreach ($propertiesMetadata as $property) {
+         foreach ($property->getMetadataClass() as $metadataClass){
+             if ( $metadataClass instanceof Translate) {
+                 echo  $property->getPropertyName() . ': ' . $metadataClass->translatable . "\n";
              }
          }
     }
