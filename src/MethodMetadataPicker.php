@@ -5,7 +5,7 @@ namespace Beerline\PhpCustomAnnotations\Metadata;
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
 use ReflectionException;
-use ReflectionProperty;
+use ReflectionMethod;
 
 class MethodMetadataPicker
 {
